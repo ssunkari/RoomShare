@@ -1,0 +1,55 @@
+Use Hmset
+Key:://sr.sunkari@gmail.com
+user =
+{
+	id :123,
+	friendlyName:'Srinu',
+	password:'pass'
+	iconUrl:'img',
+	houseKey : 'uk::m145hd::314-a',
+	active: true,
+	fixedRent: true,
+	fixedBills:true
+	roomId:roomId
+}
+
+userKey For House Setup
+key -- uk::m145hd::314-a
+house =
+{
+	id : 'abcd',
+	friendName: '35 Stanley'
+	fixedRent: true,
+	totalAmount:500
+	currencyCode:pound
+}
+
+RoomType
+Category::uk::m145hd::314-a
+{
+	FriendlyName: 'ChocRoom',
+	rent:250,
+	bills:250
+}
+
+ForHouseMates: Use Sets
+key:: uk::m145hd::314-a
+value:: [userkeys]
+
+ForRoomTypes: Use Sets
+key:: roomTypes::uk::m145hd::314-a
+value:: [userkeys]
+
+Utilities Categories: Use Sets
+utilTypes:::uk::m145hd::314-a
+['gas', 'electric', 'water']
+
+//Key for submissions 
+houseKey::userKey::date::category
+{
+	selectedDate:date,	
+	id:123,
+	category: 'gas',
+	costName: 'Costname',
+	amount: 150	
+}
