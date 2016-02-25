@@ -14,7 +14,23 @@ function normalizedCtx(ctx) {
 /* GET home page. */
 router.get('/', function (req, res) {
     res.render('index', {
-        title: 'Rent Portal-Home Page',
+        title: 'Divider-Login Page',
+        errors: []
+    });
+});
+
+/* GET home page. */
+router.get('/signup', function (req, res) {
+    res.render('signup', {
+        title: 'Divider-Signup Page',
+        errors: []
+    });
+});
+
+/* GET home page. */
+router.get('/houseshares/new', function (req, res) {
+    res.render('housesharesNew', {
+        title: 'Divider-HouseShares',
         errors: []
     });
 });
