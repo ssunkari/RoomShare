@@ -5,7 +5,7 @@ module.exports = {
 
     },
     sendGrid: {
-        apiKey: '*********************************'
+        apiKey: process.env.SGAPIKEY
     },
     twilio: {
         accountSid: 'ACd14aa08f5708d3fc846f1443e7f0ecee',

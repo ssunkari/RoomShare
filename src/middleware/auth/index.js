@@ -1,1 +1,5 @@
-module.exports.users = require('./users');
+module.exports = function (redisClient) {
+    return {
+        users: require('./users')(redisClient)
+    };
+}

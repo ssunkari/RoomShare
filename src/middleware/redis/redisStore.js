@@ -1,11 +1,20 @@
 var redisClient = require('../../redisClient');
 var Promise = require('bluebird');
 module.exports = {
-    save: function (key, arrayOfKeyValuePairs) {
+    hmset: function (key, arrayOfKeyValuePairs) {
         return redisClient.hmsetAsync(key, arrayOfKeyValuePairs);
+    },
+    sadd: function (key, value) {
+        return redisClient.saddAsync(key, value);
+    },
+    smembers: function (key) {
+        return redisClient.smembersAsync(key);
     },
     getByKey: function (key) {
         return redisClient.hgetallAsync(key);
+    },
+    keys: function (pattern) {
+        return redisClient.keysAsync(pattern);
     },
     getByWildcardKey: function (wildcardKey) {
         return Promise.all(redisClient.keysAsync(wildcardKey).then(function (keys) {

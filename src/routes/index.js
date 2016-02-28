@@ -19,21 +19,7 @@ router.get('/', function (req, res) {
     });
 });
 
-/* GET home page. */
-router.get('/signup', function (req, res) {
-    res.render('signup', {
-        title: 'Divider-Signup Page',
-        errors: []
-    });
-});
 
-/* GET home page. */
-router.get('/houseshares/new', function (req, res) {
-    res.render('housesharesNew', {
-        title: 'Divider-HouseShares',
-        errors: []
-    });
-});
 
 router.get('/logout',
     function (req, res) {
@@ -49,15 +35,29 @@ router.post('/', function (req, res, next) {
             }
             if (!user) {
                 return res.render('index', {
-                    title: 'Rent Portal-Login Page',
-                    errMsg: 'User is not authorized'
+                    title: 'Divider - Login Page',
+                    errMsg: 'Username / Password is incorrect'
                 });
             }
+            console.dir(user);
+            console.dir(user.activated);
+            if (user.activated == 'false') {
+                return res.render('index', {
+                    title: 'Divider - Login Page',
+                    notActivated: true,
+                    username: req.body.username,
+                });
+            }
+
             req.logIn(user, function (err) {
                 if (err) {
                     return next(err);
                 }
-                return res.redirect('profile/' + req.user.username);
+                if (!user.houseshareSetup) {
+                    res.redirect('/houseshares/new/' + req.user.id)
+                } else {
+                    return res.redirect('profile/' + req.user.id);
+                }
             });
         })(req, res, next);
 

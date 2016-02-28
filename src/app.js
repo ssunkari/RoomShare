@@ -4,10 +4,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var redisClient = require('./redisClient');
 var LocalStrategy = require('passport-local').Strategy;
-var db = require('./middleware/auth');
+var db = require('./middleware/auth')(redisClient);
+var shaGen = require('./middleware/shaGen');
 
 require('./extensions');
+require('./cronJob');
 
 var routes = require('./routes/index');
 var app = express();
@@ -16,31 +19,27 @@ var app = express();
 
 passport.use(new LocalStrategy(
     function (username, password, cb) {
-        db.users.findByUsername(username, function (err, user) {
-            if (err) {
-                return cb(err);
-            }
-            if (!user) {
+        db.users.findByUsername(username, password).then(function (userObj) {
+            if (!userObj) {
                 return cb(null, false);
             }
-            if (user.password !== password) {
+            if (userObj.password === shaGen(password.trim())) {
+                return cb(null, userObj);
+            } else {
                 return cb(null, false);
             }
-            return cb(null, user);
         });
     }));
 
 passport.serializeUser(function (user, cb) {
-    cb(null, user.id);
+    cb(null, {
+        username: user.username
+    });
 });
 
-passport.deserializeUser(function (id, cb) {
-    db.users.findById(id, function (err, user) {
-        if (err) {
-            return cb(err);
-        }
-        cb(null, user);
-    });
+passport.deserializeUser(function (user, cb) {
+    cb(null, user);
+
 });
 app.use(require('express-session')({
     secret: 'keyboard cat',
@@ -68,6 +67,11 @@ app.use(express.static(path.join(__dirname, '../', '/public')));
 
 //routes
 app.use('/', routes);
+
+var sgEmailClient = require('./sendGridEmailApi');
+app.use('/signup', require('./routes/signup.js')(redisClient, sgEmailClient));
+app.use('/', require('./routes/passwordRecovery.js')(redisClient, sgEmailClient));
+app.use('/houseshares', require('./routes/houseshares.js')(redisClient, sgEmailClient));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

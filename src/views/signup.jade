@@ -9,15 +9,26 @@ block content
             h3.panel-title Divider welcomes you
           |                     
           .panel-body
-            form(role='form',action="/houseshares/new/",method="post")
+            form(role='form',action="/signup",method="post")
               fieldset
                 .form-group
-                  input.form-control(placeholder='Email Id', name='email', type='email', autofocus='',required='')
+                  input.form-control(placeholder='Email Id', name='username', type='email', autofocus='',required='')
                 |                                 
                 .form-group
                   input.form-control(placeholder='Password', name='password', type='password', required='')
 
                 // Change this to a button or input when using this as a form
-                button.btn.btn-lg.btn-success.btn-block(href='submit') Continue
+                button.btn.btn-lg.btn-success.btn-block(href='submit') Sign Up
+            
+            if userExist && !userActivated
+              p User already exists but not activated 
+                a(href="/signup/resend/email?uid=#{username}") click here 
+                | to resend the activation link 
+            else if userExist
+              p User already exists with specified username  
+                a(href='/') click here 
+                | to login
+            else if success
+              p Activation email has been sent please activate your account
   script(src='/dist/js/metisMenu.min.js')
   script(src='/javascripts/bootstrap.min.js')

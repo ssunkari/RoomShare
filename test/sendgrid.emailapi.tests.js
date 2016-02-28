@@ -1,6 +1,6 @@
-describe.skip('send email using send grid', function () {
+describe.only('send email using send grid', function () {
     it('should send email message', function (done) {
-        var sendgrid = require('sendgrid')('*****');
+        var sendgrid = require('sendgrid')(process.env.SGAPIKEY);
         sendgrid.send({
             to: 'sr.sunkari@gmail.com',
             from: 'rent-portal@herokuapp.com',
@@ -13,6 +13,5 @@ describe.skip('send email using send grid', function () {
             console.log(json);
             done();
         });
-
     });
 });

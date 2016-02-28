@@ -10,12 +10,14 @@ block content
             | Let's set up your houseshare, first we'll need your address.
           |                     
           .panel-body
-            form(role='form',action="/houseshares/housemates",method="post")
+            form(role='form',action="/houseshares/new",method="post")
               fieldset
                .row
                 .col-lg-12.col-md-2
                  .form-group
-                  input.form-control(placeholder='House Number', name='houseNumber', type='text',required='')
+                  input.hidden.form-control(name='uid', value='#{uid}' type='text')
+                 .form-group
+                  input.form-control(placeholder='House Number', name='houseNumber', type='Number',required='')
                 .col-lg-12.col-md-2
                  .form-group
                   input.form-control(placeholder='Street Address', name='streetAddress', type='text', autofocus='',required='')
@@ -66,6 +68,6 @@ block content
                      option(value='US') United States
                  |   
                 // Change this to a button or input when using this as a form
-                button.btn.btn-lg.btn-success.btn-block(type='submit') Continue
+                button.btn.btn-lg.btn-success.btn-block(type='submit') Add Houseshare
   script(src='/dist/js/metisMenu.min.js')
   script(src='/javascripts/bootstrap.min.js')

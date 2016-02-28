@@ -15,7 +15,7 @@ describe('store nested javascript obj to redis', function () {
         });
     });
     beforeEach(function (done) {
-        redisStore.save("2016::01::01::Srinu", ["gas", "20", "electricity", "30", "household", "10"]).then(function (res) {
+        redisStore.hmset("2016::01::01::Srinu", ["gas", "20", "electricity", "30", "household", "10"]).then(function (res) {
             console.log('Redis Key storage status :', res);
             done();
         });
@@ -44,7 +44,7 @@ describe('store nested javascript obj to redis', function () {
     });
     describe('update property and get by key', function () {
         beforeEach(function (done) {
-            redisStore.save("2016::01::01::Srinu", ["gas", "40"]).then(function (res) {
+            redisStore.hmset("2016::01::01::Srinu", ["gas", "40"]).then(function (res) {
                 console.log('Redis haskey update succeeded :', res);
                 done();
             });
@@ -73,6 +73,84 @@ describe('store nested javascript obj to redis', function () {
                 assert.equal(result.electricity, expectedResponse.electricity);
                 assert.equal(result.household, expectedResponse.household);
                 done();
+            });
+        });
+    });
+
+    describe('get keys by wildcard in between the key', function () {
+        beforeEach(function (done) {
+            redisStore.hmset("2016::01::01::george", ["gas", "20", "electricity", "30", "household", "10"]).then(function (res) {
+                done();
+            });
+        });
+        beforeEach(function (done) {
+            redisStore.hmset("2016:01:01:abcd", ["gas", "20", "electricity", "30", "household", "10"]).then(function (res) {
+                done();
+            });
+        });
+        beforeEach(function (done) {
+            redisStore.hmset("2016:02:01:abd", ["gas", "20", "electricity", "30", "household", "10"]).then(function (res) {
+                done();
+            });
+        });
+        it('should retrive the keys using single wildcard', function (done) {
+            redisStore.keys("2016::01::01::*").then(function (result) {
+                assert.equal(result.length, 2);
+                done();
+            });
+        });
+        it('should retrive the keys using multi wildcard', function (done) {
+            redisStore.keys("2016:*:01:a*").then(function (result) {
+                assert.equal(result.length, 2);
+                done();
+            });
+        });
+
+        it('should retrive the key values using multi wildcard', function (done) {
+            redisStore.getByWildcardKey("2016:*:01:a*").then(function (result) {
+                assert.equal(result.length, 2);
+                done();
+            });
+        });
+    });
+
+    describe('Using Sets', function () {
+        describe('unique users', function () {
+            beforeEach(function (done) {
+                redisStore.sadd("user", "sri").then(function (res) {
+                    done();
+                });
+            });
+            beforeEach(function (done) {
+                redisStore.sadd("user", "george").then(function (res) {
+                    done();
+                });
+            });
+
+            it('should retrive the both users sets by key', function (done) {
+                redisStore.smembers("user").then(function (result) {
+                    assert.equal(result.length, 2);
+                    done();
+                });
+            });
+        });
+        describe('add duplicate users', function () {
+            beforeEach(function (done) {
+                redisStore.sadd("user", "sri").then(function (res) {
+                    done();
+                });
+            });
+            beforeEach(function (done) {
+                redisStore.sadd("user", "sri").then(function (res) {
+                    done();
+                });
+            });
+
+            it('should retrive the both users sets by key', function (done) {
+                redisStore.smembers("user").then(function (result) {
+                    assert.equal(result.length, 1);
+                    done();
+                });
             });
         });
     });

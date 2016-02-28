@@ -1,3 +1,7 @@
+username:sr.sunkari@gmail.com
+key:9e1e2d2473
+pass:123
+
 Use Hmset
 Key:://sr.sunkari@gmail.com
 user =
@@ -6,15 +10,22 @@ user =
 	friendlyName:'Srinu',
 	password:'pass'
 	iconUrl:'img',
-	houseKey : 'uk::m145hd::314-a',
-	active: true,
+	activated: true,
+	houseshareSetup:true
 	fixedRent: true,
 	fixedBills:true
 	roomId:roomId
 }
 
+//HouseTenancyPerUser
+Key:: UHS:userkey:uk:m145hd::314-a
+{
+startDate:''
+	
+}
+
 userKey For House Setup
-key -- uk::m145hd::314-a
+key -- HS:Cuk:Pm145hd::H314-a
 house =
 {
 	id : 'abcd',
@@ -47,6 +58,7 @@ utilTypes:::uk::m145hd::314-a
 //Key for submissions 
 houseKey::userKey::date::category
 {
+lastmodified:''
 	selectedDate:date,	
 	id:123,
 	category: 'gas',

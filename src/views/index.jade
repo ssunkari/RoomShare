@@ -23,6 +23,13 @@ block content
                     | Remember Me
                 // Change this to a button or input when using this as a form
                 button.btn.btn-lg.btn-success.btn-block(type='submit') Login
+                a.btn.btn-lg.btn-success.btn-block(href='/PasswordRecovery') Forgot Password
                 a.btn.btn-lg.btn-success.btn-block(href='/Signup') Lets Get Setup
+            p= errMsg
+            if notActivated
+              p User not activated 
+                a(href="/signup/resend/email?uid=#{username}") click here 
+                | to resend the activation link 
+           
   script(src='/dist/js/metisMenu.min.js')
   script(src='/javascripts/bootstrap.min.js')
