@@ -72,6 +72,7 @@ var sgEmailClient = require('./sendGridEmailApi');
 app.use('/signup', require('./routes/signup.js')(redisClient, sgEmailClient));
 app.use('/', require('./routes/passwordRecovery.js')(redisClient, sgEmailClient));
 app.use('/houseshares', require('./routes/houseshares.js')(redisClient, sgEmailClient));
+app.use('/profile', require('./routes/profile.js')(redisClient, sgEmailClient));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

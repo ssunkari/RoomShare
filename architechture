@@ -44,7 +44,7 @@ Category::uk::m145hd::314-a
 }
 
 ForHouseMates: Use Sets
-key:: uk::m145hd::314-a
+key:: housemates::uk::m145hd::314-a
 value:: [userkeys]
 
 ForRoomTypes: Use Sets
@@ -52,13 +52,13 @@ key:: roomTypes::uk::m145hd::314-a
 value:: [userkeys]
 
 Utilities Categories: Use Sets
-utilTypes:::uk::m145hd::314-a
+utilTypes:uk::m145hd:314-a
 ['gas', 'electric', 'water']
 
 //Key for submissions 
 houseKey::userKey::date::category
 {
-lastmodified:''
+	lastmodified:''
 	selectedDate:date,	
 	id:123,
 	category: 'gas',

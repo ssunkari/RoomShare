@@ -20,11 +20,11 @@ block content
                 i.fa.fa-home.fa-5x
               |                                 
               .col-xs-9.text-right
-                .huge £#{currentMonthSummary.util.household}
+                .huge £#{household}
                 |                                     
                 div Other Household / Person
           |                         
-          a(href='/expenses/breakdown?user=#{user}')
+          a(href='/expenses/breakdown?uid=#{uid}')
             .panel-footer
               span.pull-left See how its calculated
               |                                 
@@ -44,7 +44,7 @@ block content
               |                                     
               div Water & Internet / Person
         |                         
-        a(href='/expenses/breakdown?user=#{user}')
+        a(href='/expenses/breakdown?uid=#{uid}')
           .panel-footer
             span.pull-left See how its calculated
             |                                 
@@ -60,11 +60,11 @@ block content
               i.fa.fa-bolt.fa-5x
             |                                 
             .col-xs-9.text-right
-              .huge £#{currentMonthSummary.util.gas + currentMonthSummary.util.electricity}
+              .huge £#{gas + electricity}
               |                                     
               div Gas & Electric / Person !
         |                         
-        a(href='/expenses/breakdown?user=#{user}')
+        a(href='/expenses/breakdown?uid=#{uid}')
           .panel-footer
             span.pull-left See how its calculated
             |                                 
@@ -80,11 +80,11 @@ block content
               i.fa.fa-support.fa-5x
             |                                 
             .col-xs-9.text-right
-              .huge £#{currentMonthSummary.total}
+              .huge £#{total}
               |                                     
               div You owe
         |                         
-        a(href='/expenses/breakdown?user=#{user}')
+        a(href='/expenses/breakdown?uid=#{uid}')
           .panel-footer
             span.pull-left See how its calculated
             |                                 
@@ -433,7 +433,7 @@ block content
           ul.chat
             //- li.left.clearfix
             //-   span.chat-img.pull-left
-            //-     img.img-circle(src='http://placehold.it/50/55C1E7/fff', alt='User Avatar')
+            //-     img.img-circle(src='http://placehold.it/50/55C1E7/fff', alt='uid Avatar')
             //-   |                                     
             //-   .chat-body.clearfix
             //-     .header
@@ -448,7 +448,7 @@ block content
             //- |                                 
             //- li.right.clearfix
             //-   span.chat-img.pull-right
-            //-     img.img-circle(src='http://placehold.it/50/FA6F57/fff', alt='User Avatar')
+            //-     img.img-circle(src='http://placehold.it/50/FA6F57/fff', alt='uid Avatar')
             //-   |                                     
             //-   .chat-body.clearfix
             //-     .header
@@ -463,7 +463,7 @@ block content
             //- |                                 
             //- li.left.clearfix
             //-   span.chat-img.pull-left
-            //-     img.img-circle(src='http://placehold.it/50/55C1E7/fff', alt='User Avatar')
+            //-     img.img-circle(src='http://placehold.it/50/55C1E7/fff', alt='uid Avatar')
             //-   |                                     
             //-   .chat-body.clearfix
             //-     .header
@@ -478,7 +478,7 @@ block content
             //- |                                 
             //- li.right.clearfix
             //-   span.chat-img.pull-right
-            //-     img.img-circle(src='http://placehold.it/50/FA6F57/fff', alt='User Avatar')
+            //-     img.img-circle(src='http://placehold.it/50/FA6F57/fff', alt='uid Avatar')
             //-   |                                     
             //-   .chat-body.clearfix
             //-     .header
@@ -493,7 +493,7 @@ block content
             //- |                                 
             //- li.right.clearfix
             //-   span.chat-img.pull-right
-            //-     img.img-circle(src='http://placehold.it/50/FA6F57/fff', alt='User Avatar')
+            //-     img.img-circle(src='http://placehold.it/50/FA6F57/fff', alt='uid Avatar')
             //-   |                                     
             //-   .chat-body.clearfix
             //-     .header
@@ -508,7 +508,7 @@ block content
             //- |                                 
             //- li.right.clearfix
             //-   span.chat-img.pull-right
-            //-     img.img-circle(src='http://placehold.it/50/FA6F57/fff', alt='User Avatar')
+            //-     img.img-circle(src='http://placehold.it/50/FA6F57/fff', alt='uid Avatar')
             //-   |                                     
             //-   .chat-body.clearfix
             //-     .header
@@ -532,6 +532,6 @@ block content
       // /.panel .chat-panel
     // /.col-lg-4
     //Hidden fields
-    .user.hidden #{user}      
+    .uid.hidden #{uid}      
   script(src='/morrisjs/morris.min.js')
   script(src='/morrisjs/morris-data.js')       

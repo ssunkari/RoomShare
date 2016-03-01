@@ -271,7 +271,7 @@ html
                   span.fa.arrow
                 ul.nav.nav-second-level
                   li
-                    a(href='/houseshares/new?user=#{user}') 
+                    a(href='/houseshares/new?uid=#{uid}') 
                       i.fa.fa-plus-circle.fa-fw
                       | Add New Houseshare
               |                         
@@ -291,7 +291,11 @@ html
                   li
                     a(href='/expenses/houseshares?user=#{user}&type=all') View Others Expenses
                 // /.nav-second-level
-              |                         
+              li
+                a(href='/houseshares/addHousemate?uid=#{uid}')
+                  i.fa.fa-plus-circle.fa-fw
+                  | Add Housemates 
+                |                         
               //- li
               //-   a(href='tables.html')
               //-     i.fa.fa-table.fa-fw

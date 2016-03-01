@@ -9,6 +9,13 @@ module.exports = function (redisClient) {
             uid: req.params.uid
         });
     });
+
+    router.get('/addHousemate', function (req, res) {
+        res.render('addHousemate', {
+            title: 'Divider-Add Housemate',
+            uid: req.params.uid
+        });
+    });
     router.post('/new', function (req, res, next) {
             req.params.uid = req.body.uid;
             next();

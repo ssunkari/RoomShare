@@ -19,8 +19,6 @@ router.get('/', function (req, res) {
     });
 });
 
-
-
 router.get('/logout',
     function (req, res) {
         req.logout();
@@ -39,8 +37,6 @@ router.post('/', function (req, res, next) {
                     errMsg: 'Username / Password is incorrect'
                 });
             }
-            console.dir(user);
-            console.dir(user.activated);
             if (user.activated == 'false') {
                 return res.render('index', {
                     title: 'Divider - Login Page',
@@ -56,7 +52,7 @@ router.post('/', function (req, res, next) {
                 if (!user.houseshareSetup) {
                     res.redirect('/houseshares/new/' + req.user.id)
                 } else {
-                    return res.redirect('profile/' + req.user.id);
+                    return res.redirect('/profile/' + req.user.id);
                 }
             });
         })(req, res, next);
