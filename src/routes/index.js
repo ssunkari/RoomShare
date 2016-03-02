@@ -34,7 +34,7 @@ router.post('/', function (req, res, next) {
             if (!user) {
                 return res.render('index', {
                     title: 'Divider - Login Page',
-                    errMsg: 'Username / Password is incorrect'
+                    errMsg: 'We are unable to log you in at this time. Please try again or email admin for assistance.'
                 });
             }
             if (user.activated == 'false') {
