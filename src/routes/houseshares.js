@@ -10,12 +10,7 @@ module.exports = function (redisClient) {
         });
     });
 
-    router.get('/addHousemate', function (req, res) {
-        res.render('addHousemate', {
-            title: 'Divider-Add Housemate',
-            uid: req.params.uid
-        });
-    });
+    router.get('/addHousemate', middleware.houseshares.setUidOnRequest(), middleware.houseshares.users.getUsers(redisClient), middleware.houseshares.users.render());
     router.post('/new', function (req, res, next) {
             req.params.uid = req.body.uid;
             next();
