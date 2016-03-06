@@ -193,22 +193,22 @@ block content
           // /.col-lg-12
               // Button trigger modal
           //- button.btn.btn-primary.btn-lg(type='button', data-toggle='modal', data-target='#myModal')
-          i.fa.fa-edit(data-toggle='modal', data-target='#myModal')
-          // Modal
-          #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
-            form(role="form" name="profileSettings", action='/profile/user/#{uid}', method="post")
-              .modal-dialog(role='document')
-                .modal-content
-                  .modal-header
-                    button.close(type='button', data-dismiss='modal', aria-label='Close')
-                      span(aria-hidden='true') ×
-                    h4#myModalLabel.modal-title Personal Settings
-                  .modal-body
-                    label Set Phone Number 
-                      input(type='text', name='phone', required='',autofocus='')
-                  .modal-footer
-                    button.btn.btn-default(type='button', data-dismiss='modal') Close
-                    button.btn.btn-primary(type='submit') Save changes
+          //- i.fa.fa-edit(data-toggle='modal', data-target='#myModal')
+          //- // Modal
+          //- #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel')
+          //-   form(role="form" name="profileSettings", action='/profile/user/#{uid}', method="post")
+          //-     .modal-dialog(role='document')
+          //-       .modal-content
+          //-         .modal-header
+          //-           button.close(type='button', data-dismiss='modal', aria-label='Close')
+          //-             span(aria-hidden='true') ×
+          //-           h4#myModalLabel.modal-title Personal Settings
+          //-         .modal-body
+          //-           label Set Phone Number 
+          //-             input(type='text', name='phone', required='',autofocus='')
+          //-         .modal-footer
+          //-           button.btn.btn-default(type='button', data-dismiss='modal') Close
+          //-           button.btn.btn-primary(type='submit') Save changes
           script.
             $(document).ready(function() {
                 $("a").click(function(event) {
