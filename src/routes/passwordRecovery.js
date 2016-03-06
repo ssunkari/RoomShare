@@ -4,7 +4,7 @@ var router = express.Router();
 
 module.exports = function (redisClient, emailClient) {
 
-    router.post('/passwordRecovery', middleware.signup.userValidator(redisClient), function (req, res, next) {
+    router.post('/passwordRecovery', middleware.signup.validateUserByEmail(redisClient), function (req, res, next) {
         if (req.userExist) {
             req.passwordRecovery = true;
             req.message = 'Email sent please click the link to reset password';
@@ -36,12 +36,15 @@ module.exports = function (redisClient, emailClient) {
         });
     });
 
-    router.post('/passwordReset/:id', middleware.signup.userExists(redisClient), middleware.signup.changePassword(redisClient), function (req, res) {
-        res.render('passwordReset', {
-            title: 'Divider-Password Reset',
-            success: req.success,
-            message: !req.userExist ? 'User does not exist' : ''
+    router.post('/passwordReset/:id',
+        middleware.houseshares.users.userExists(redisClient),
+        middleware.signup.changePassword(redisClient),
+        function (req, res) {
+            res.render('passwordReset', {
+                title: 'Divider-Password Reset',
+                success: req.success,
+                message: !req.userExist ? 'User does not exist' : ''
+            });
         });
-    });
     return router;
 };

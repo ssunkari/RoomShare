@@ -12,7 +12,11 @@ module.exports = function (redisClient, emailClient) {
             var username = req.body.username.trim();
             var userKey = shaGen(username).toLowerCase();
             var passwordHash = shaGen(req.body.password.trim());
-            redisClient.hmsetAsync(userKey, ["id", userKey, "username", username, "password", passwordHash]).then(function (status) {
+            redisClient.hmsetAsync(userKey, ["id", userKey, "friendlyName", req.body.friendly_name,
+                "username", username,
+                "password", passwordHash,
+                "imageFileName", "default.png"
+            ]).then(function (status) {
                 if (status) {
                     next();
 

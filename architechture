@@ -11,10 +11,34 @@ user =
 	password:'pass'
 	iconUrl:'img',
 	activated: true,
-	houseshareSetup:true
+	houseshareSetup:true,
+	imageFileName:'url',
+	houseshareKey:'HS:Key'
 	fixedRent: true,
 	fixedBills:true
 	roomId:roomId
+}
+
+Notifications:
+Key:: SMS:NTF:userKey:HSKey
+{
+	addToGroup: true,
+	addBill:true,
+	editBill:true,
+	commentOnBill:true,
+	dueBills:true,
+	monthlySummary:true,
+	otherNotifications:true
+}
+Key:: Email:NTF:userKey:HSKey
+{
+	addToGroup: true,
+	addBill:true,
+	editBill:true,
+	commentOnBill:true,
+	dueBills:true,
+	monthlySummary:true,
+	otherNotifications:true
 }
 
 //HouseTenancyPerUser

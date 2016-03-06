@@ -3,12 +3,44 @@ var middleware = require('../middleware');
 var router = express.Router();
 
 module.exports = function (redisClient) {
-    router.get('/:uid', function (req, res) {
-        res.render('profile', {
-            title: 'Divider-User Profile',
-            uid: req.params.uid
+    router.get('/:uid', middleware.houseshares.setPropertyFromRequest('uid'),
+        middleware.houseshares.users.userExists(redisClient),
+        middleware.houseshares.users.getUserHouseshareInfo(redisClient),
+        function (req, res) {
+            res.render('profile', {
+                title: 'Divider-User Profile',
+                uid: req.params.uid,
+                user: req.user
+            });
         });
-    });
+
+    router.get('/user/:uid', middleware.houseshares.setPropertyFromRequest('uid'),
+        middleware.houseshares.users.userExists(redisClient),
+        middleware.houseshares.users.getUserHouseshareInfo(redisClient),
+        function (req, res) {
+            res.render('user', {
+                title: 'Divider-User Profile',
+                uid: req.params.uid,
+                user: req.user
+            });
+        });
+
+    router.post('/user/:uid',
+        middleware.houseshares.setPropertyFromRequest('uid'),
+        middleware.houseshares.users.userExists(redisClient),
+        middleware.houseshares.users.uploadFileToDisk(),
+        middleware.houseshares.users.setImagePathToUserProfile(redisClient),
+        middleware.houseshares.users.getUserHouseshareInfo(redisClient),
+        //   require('connect-ensure-login').ensureLoggedIn('/'),
+        function (req, res) {
+            console.log('Get User -===========', req.user);
+            res.render('user', {
+                title: 'Divider-User Profile',
+                uid: req.uid,
+                user: req.user,
+                error: req.fileUploadSuccess ? 'Image Uploaded Sucessfully' : 'Image upload Failed'
+            });
+        });
 
     return router;
 }

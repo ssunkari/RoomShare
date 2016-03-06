@@ -3,10 +3,10 @@ var moment = require('moment');
 
 module.exports = function (redisClient) {
     return function (req, res, next) {
-        var houseShareKey = 'HS:' + 'C' + req.body.countryCode.trim().toLowerCase() + ':P' + req.body.postCode.trim().toLowerCase().replace(' ', '') + ':H' + req.body.houseNumber.trim();
-        req.houseShareKey = houseShareKey;
+        var houseshareKey = 'HS:' + 'C' + req.body.countryCode.trim().toLowerCase() + ':P' + req.body.postCode.trim().toLowerCase().replace(' ', '') + ':H' + req.body.houseNumber.trim();
+        req.houseshareKey = houseshareKey;
         var friendlyName = req.body.houseNumber.trim() + ' ' + req.body.streetAddress.trim().split(' ')[0];
-        redisClient.hmsetAsync(houseShareKey, ['lastmodified', moment().format('YYYY-MM-DD'),
+        redisClient.hmsetAsync(houseshareKey, ['lastmodified', moment().format('YYYY-MM-DD'),
             'friendlyName', friendlyName
         ]).then(function (transactionStatus) {
             if (transactionStatus) {

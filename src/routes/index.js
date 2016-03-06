@@ -37,7 +37,8 @@ router.post('/', function (req, res, next) {
                     errMsg: 'We are unable to log you in at this time. Please try again or email admin for assistance.'
                 });
             }
-            if (user.activated == 'false') {
+            console.dir(user);
+            if (!user.activated || user.activated == false) {
                 return res.render('index', {
                     title: 'Divider - Login Page',
                     notActivated: true,
@@ -50,7 +51,7 @@ router.post('/', function (req, res, next) {
                     return next(err);
                 }
                 if (!user.houseshareSetup) {
-                    res.redirect('/houseshares/new/' + req.user.id)
+                    res.redirect('/houseshares/new?uid=' + req.user.id)
                 } else {
                     return res.redirect('/profile/' + req.user.id);
                 }

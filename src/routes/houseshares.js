@@ -2,27 +2,45 @@ var express = require('express');
 var middleware = require('../middleware');
 var router = express.Router();
 
-module.exports = function (redisClient) {
-    router.get('/new/:uid', function (req, res) {
+module.exports = function (redisClient, emailClient) {
+    router.get('/new/', function (req, res) {
         res.render('housesharesNew', {
             title: 'Divider-HouseShares',
-            uid: req.params.uid
+            uid: req.query.uid
         });
     });
 
-    router.get('/addHousemate', middleware.houseshares.setUidOnRequest(), middleware.houseshares.users.getUsers(redisClient), middleware.houseshares.users.render());
-    router.post('/new', function (req, res, next) {
-            req.params.uid = req.body.uid;
-            next();
-        }, middleware.signup.userExists(redisClient),
+    router.get('/sendInvite', middleware.houseshares.setPropertyFromRequest('uid'),
+        middleware.signup.validateUserByEmail(redisClient),
+        function (req, res, next) {
+            if (req.userExist) {
+                res.send('user already exists');
+            } else {
+                next();
+            }
+
+        },
+        middleware.houseshares.users.inviteUserByEmail(emailClient),
+        function (req, res) {
+            res.send('Invite has been sent');
+        });
+
+    router.get('/addHousemate', middleware.houseshares.setPropertyFromRequest('uid'),
+        middleware.houseshares.users.userExists(redisClient),
+        middleware.houseshares.users.getUserHouseshareInfo(redisClient),
+        middleware.houseshares.users.render());
+
+    router.post('/new', middleware.houseshares.setPropertyFromRequest('uid'),
+        middleware.houseshares.users.userExists(redisClient),
         middleware.houseshares.addNew(redisClient),
         middleware.houseshares.userSettings.setHouseSetupFlag(redisClient),
         middleware.houseshares.userSettings.setTenancyAgreement(redisClient),
         middleware.houseshares.houseConfig.addDefaultUtilCategories(redisClient),
+        middleware.houseshares.users.setUpNotifications(redisClient),
         middleware.houseshares.houseConfig.addHousemates(redisClient),
 
         function (req, res) {
-            res.redirect('/user/profile');
+            res.redirect('/profile/' + req.uid);
         });
     return router;
 }

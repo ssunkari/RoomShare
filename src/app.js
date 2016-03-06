@@ -8,12 +8,16 @@ var redisClient = require('./redisClient');
 var LocalStrategy = require('passport-local').Strategy;
 var db = require('./middleware/auth')(redisClient);
 var shaGen = require('./middleware/shaGen');
+var config = require('./config');
 
 require('./extensions');
 require('./cronJob');
 
 var routes = require('./routes/index');
 var app = express();
+
+var busboy = require('connect-busboy');
+//...
 
 //passport setup
 
@@ -57,11 +61,11 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(busboy());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../', '/public')));
 
@@ -69,10 +73,13 @@ app.use(express.static(path.join(__dirname, '../', '/public')));
 app.use('/', routes);
 
 var sgEmailClient = require('./sendGridEmailApi');
-app.use('/signup', require('./routes/signup.js')(redisClient, sgEmailClient));
-app.use('/', require('./routes/passwordRecovery.js')(redisClient, sgEmailClient));
-app.use('/houseshares', require('./routes/houseshares.js')(redisClient, sgEmailClient));
-app.use('/profile', require('./routes/profile.js')(redisClient, sgEmailClient));
+
+smsClient = require('twilio')(config.get('twilio:accountSid'), config.get('twilio:authToken'));
+app.use('/signup', require('./routes/signup')(redisClient, sgEmailClient));
+app.use('/', require('./routes/passwordRecovery')(redisClient, sgEmailClient));
+app.use('/houseshares', require('./routes/houseshares')(redisClient, sgEmailClient));
+app.use('/profile', require('./routes/profile')(redisClient, sgEmailClient));
+app.use('/bills', require('./routes/bills')(redisClient, sgEmailClient, smsClient));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

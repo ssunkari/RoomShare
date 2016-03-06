@@ -1,4 +1,4 @@
-describe.skip('send text message via twilio', function () {
+describe.only('send text message via twilio', function () {
     it('should send a text message', function (done) {
         // Twilio Credentials 
         var accountSid = 'ACd14aa08f5708d3fc846f1443e7f0ecee';
@@ -12,7 +12,7 @@ describe.skip('send text message via twilio', function () {
             from: "+441392694037",
             body: "Test message",
         }, function (err, message) {
-            console.log(message.sid);
+            console.log(err);
             done();
         });
 

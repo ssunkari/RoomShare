@@ -4,7 +4,7 @@ module.exports = function () {
             title: 'Divider-Signup Page',
             userExist: req.userExist,
             userActivated: req.activated,
-            username: req.body.username,
+            username: req.uid,
             success: true
         });
     }
