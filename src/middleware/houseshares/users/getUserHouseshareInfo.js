@@ -1,7 +1,7 @@
 var moment = require('moment');
 var _ = require('lodash');
 var Promise = require('bluebird');
-var usersCurrentlyLivingInHouseshare = require('./usersCurrentlyLivingInHouseshare');
+var usersCurrentlyLivingInHouseshare = require('./usersCurrentlyLivingInHouseShare');
 module.exports = function (redisClient) {
     return function (req, res, next) {
         console.log('Get User Info:: UID', req.uid);
