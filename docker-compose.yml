@@ -1,0 +1,4 @@
+node-express-app:
+ image: ssunkari/express-soa
+ ports:
+  - "3000:3000"
